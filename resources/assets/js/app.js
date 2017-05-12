@@ -22,8 +22,11 @@ $( document ).ready(function() {
 Vue.component('welcome', require('./components/Welcome.vue'));
 Vue.component('signupweb', require('./components/Signupweb.vue'));
 Vue.component('signupwebsuccess', require('./components/Signupwebsuccess.vue'));
+Vue.component('pagination', require('vue-laravel-pagination'));
+
 Vue.use(VueValidate);
 Vue.use(VueHighcharts);
+
 
 
 

@@ -22,7 +22,7 @@ class HomeController extends Controller
      */
     public function welcome()
     {
-        $webs = DB::table('webs')->get();
+        $webs = DB::table('webs')->paginate(10);
         return response()
             ->json(['webs' => $webs]);
     }

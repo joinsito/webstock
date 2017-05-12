@@ -27,6 +27,7 @@
             </tr>
             </tbody>
         </table>
+        <pagination :pagination="pagination" navClass="anyclass" size="pagination-sm" :callback="fetchIndexData" ></pagination>
         <button @click="signupWeb" class="btn btn-primary">Signup project</button>
     </div>
 </template>
@@ -40,6 +41,7 @@
         data() {
             return {
                 webs: {},
+                pagination: {},
                 options: {}
             }
         },
@@ -47,13 +49,18 @@
             this.fetchIndexData()
         },
         methods: {
-            fetchIndexData() {
+            fetchIndexData(page) {
                 var vm = this
-                axios.get(`${this.source}`)
+                if (page) {
+                    var sourcepage = this.source + '?page='+page;
+                }else {
+                    var sourcepage = this.source;
+                }
+                axios.get(`${sourcepage}`)
                     .then(function(response) {
-                        Vue.set(vm.$data, 'webs', response.data.webs)
+                        Vue.set(vm.$data, 'webs', response.data.webs.data)
+                        Vue.set(vm.$data, 'pagination', response.data.webs)
                         Vue.set(vm.$data, 'options', response.data.options)
-
                     })
                     .catch(function(response) {
                         console.log(response)
