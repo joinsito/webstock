@@ -21,6 +21,10 @@ Route::get('/signupweb', function () {
 
 
 Route::get('api/welcome', 'HomeController@welcome');
+Route::get('/api/siteinfo/{siteId}', 'WebController@siteinfo');
+Route::get('/site/{siteId}/{siteUrl}', 'WebController@site');
+
+
 Route::post('api/signupwebform', 'WebController@signupwebform');
 
 
@@ -29,3 +33,5 @@ Auth::routes();
 Route::get('/home', function () {
     return view('welcome');
 });
+
+Auth::routes();

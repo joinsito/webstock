@@ -24,8 +24,7 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
     <style>
         body {
-            min-height: 2000px;
-            padding-top: 70px;
+            min-height: 100px;
         }
     </style>
 </head>
@@ -59,11 +58,13 @@
             </div>
         </nav>
     @endif
-    <div class="container">
-        <div id="app" class="jumbotron">
-            @yield('content')
-        </div>
+    <div class="container" id="app">
+        @yield('content')
     </div>
     <script src="{{ asset('js/app.js') }}"></script>
+    <script id="__bs_script__">//<![CDATA[
+        document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.18.11'><\/script>".replace("HOST", location.hostname));
+        //]]></script>
+
 </body>
 </html>

@@ -14,6 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+        Commands\retrieve::class,
+        Commands\topsites::class
     ];
 
     /**
@@ -26,6 +28,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->command('rank:retrieve')->daily();
+
     }
 
     /**

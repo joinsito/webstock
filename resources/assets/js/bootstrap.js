@@ -20,7 +20,7 @@ require('bootstrap-sass');
 window.Vue = require('vue');
 window.VueValidate = require('vee-validate');
 window.VueHighcharts = require('vue-highcharts');
-
+window.VueRouter = require('vue-router');
 
 
 /**

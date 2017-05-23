@@ -6,6 +6,9 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "doctrine/dbal": "^2.5",
+        "jonnyw/php-phantomjs": "4.*",
+        "laravel/cashier": "~7.0",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0"
     },
@@ -36,11 +39,13 @@
         ],
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize"
+            "php artisan optimize",
+            "PhantomInstaller\\Installer::installPhantomJS"
         ],
         "post-update-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan optimize"
+            "php artisan optimize",
+            "PhantomInstaller\\Installer::installPhantomJS"
         ]
     },
     "config": {

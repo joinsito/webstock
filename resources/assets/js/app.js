@@ -22,11 +22,15 @@ $( document ).ready(function() {
 Vue.component('welcome', require('./components/Welcome.vue'));
 Vue.component('signupweb', require('./components/Signupweb.vue'));
 Vue.component('signupwebsuccess', require('./components/Signupwebsuccess.vue'));
+Vue.component('siteinfo', require('./components/Siteinfo.vue'));
 Vue.component('pagination', require('vue-laravel-pagination'));
+Vue.component('mycarousel', require('./components/Carousel.vue'));
+Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue'));
+
 
 Vue.use(VueValidate);
 Vue.use(VueHighcharts);
-
+Vue.use(VueRouter);
 
 
 
@@ -34,6 +38,7 @@ const app = new Vue({
     el: '#app',
     data:
         {
-            currentView: 'welcome'
+            currentView: 'welcome',
+            loading: false
         }
 });

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Web;
 use Auth;
 use Illuminate\Support\Facades\Storage;
+use JonnyW\PhantomJs\Client;
+
 
 class WebController extends Controller
 {
@@ -43,4 +45,48 @@ class WebController extends Controller
 
         return response()->json(['ok']);
     }
+
+    public function siteinfo($siteId) {
+        $site = Web::find($siteId);
+        if ($site->visited!=1) {
+            $awisInfo = new \App\library\awis(env('AWS_ACCESSKEY'), env('AWS_SECRETKEY'), $site->url);
+            $awsInfo = $awisInfo->getUrlInfo();
+            $site->description = $awsInfo['description'];
+            $site->links = $awsInfo['links'];
+            $site->visited = 1;
+            $site->save();
+            $site->awis = $awsInfo;
+        }else {
+            $site->awis = new \stdClass();
+            $site->awis->description = $site->description;
+            $site->awis->links = $site->links;
+        }
+        if (!file_exists('images/sites/'.$siteId.'.jpg')) {
+            // Capture site
+            $client = Client::getInstance();
+            $client->getProcedureCompiler()->enableCache();
+            $client->getEngine()->addOption('--ignore-ssl-errors=true');
+            $request  = $client->getMessageFactory()->createCaptureRequest("http://".$site->url);
+            $request->setTimeout(4000);
+            $request->setOutputFile('images/sites/'.$siteId.'.jpg');
+            $width  = 1024;
+            $height = 768;
+            $top    = 0;
+            $left   = 0;
+            $request->setViewportSize($width, $height);
+            $request->setCaptureDimensions($width, $height, $top, $left);
+            $response = $client->getMessageFactory()->createResponse();
+            $client->send($request, $response);
+        }
+
+        return response()
+            ->json(['siteinfo' => $site]);
+    }
+
+    public function site($siteId,$siteUrl) {
+        return view('siteinfo')->with('siteId',$siteId);
+    }
+
+
+
 }

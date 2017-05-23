@@ -1,43 +1,45 @@
 <template>
-    <div class="table-responsive">
-        <highcharts :options="options"></highcharts>
+    <div class="jumbotron">
+        <mycarousel></mycarousel>
+        <div class="center">
+            <p class="text-center">
+                Latest additions
+            </p>
+        </div>
+        <div class="table-responsive">
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>Name</th>
+                <th>Rank</th>
                 <th>Site Url</th>
-                <th>Description</th>
             </tr>
             </thead>
             <tbody>
-            <tr v-for="web in webs">
-                <td>
+            <tr v-for="web in webs" @click="gotoSite(web.id,web.url)" class="siterow">
+                <!--<td>
                     <span><img width=200px :src="imageLocation(web.id)"/></span>
-                </td>
+                </td>-->
                 <td>
-                    <span>{{web.name}}</span>
+                    <span>{{web.alexa_rank}}</span>
                 </td>
                 <td>
                     <span>{{web.url}}</span>
                 </td>
-                <td>
-                    <span>{{web.description}}</span>
-                </td>
-
             </tr>
             </tbody>
         </table>
         <pagination :pagination="pagination" navClass="anyclass" size="pagination-sm" :callback="fetchIndexData" ></pagination>
-        <button @click="signupWeb" class="btn btn-primary">Signup project</button>
+    </div>
     </div>
 </template>
 <script>
     import Vue from 'vue'
     import axios from 'axios'
+    import Carousel from "../../../../node_modules/vue-carousel/src/Carousel";
     //similar to vue-resource
 
     export default {
-        props: ['source', 'title'],
+        components: {Carousel}, props: ['source', 'title'],
         data() {
             return {
                 webs: {},
@@ -47,6 +49,9 @@
         },
         created() {
             this.fetchIndexData()
+            this.$on('paginationChangepage', function(page){
+                this.fetchIndexData(page)
+            });
         },
         methods: {
             fetchIndexData(page) {
@@ -71,6 +76,9 @@
             },
             imageLocation(webId) {
                 return '/images/sites/'+webId;
+            },
+            gotoSite(siteId,siteUrl) {
+                window.location.href = '/site/'+siteId+'/'+siteUrl;
             }
         }
     }

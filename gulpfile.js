@@ -15,6 +15,10 @@ require('laravel-elixir-vue-2');
 
 elixir(function(mix) {
     mix.sass('app.scss')
-       .webpack('app.js');
+        .webpack('app.js')
+        .browserSync({
+            injectChanges: true,
+            browser: 'chrome',
+            proxy: '0.0.0.0:3010'
+        });
 });
-
